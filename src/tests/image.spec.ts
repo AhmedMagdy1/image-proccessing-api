@@ -38,7 +38,6 @@ describe('Test Image Endpoint', (): void => {
     };
     expect(async () => {
       await resizeImage(imageObject, inputImagePath, outputImagePath);
-  }).not.toThrow();
-});
-
+    }).not.toThrow();
+  });
 });
