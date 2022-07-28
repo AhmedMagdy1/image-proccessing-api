@@ -1,7 +1,7 @@
 import express from 'express';
 import resizeImage from '../../services/resize';
 import { query, validationResult } from 'express-validator';
-
+import  validate  from '../../middleware/processing-validation';
 const image = express.Router();
 import fs = require('fs');
 export interface ImageObject {
@@ -13,15 +13,8 @@ import path = require('path');
 
 image.get(
   '/',
-  query('name').exists(),
-  query('width').exists().isNumeric(),
-  query('height').exists().isNumeric(),
+  validate,
   async (req: express.Request, res: express.Response) => {
-    // check validation & show errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
 
     const imageObject: ImageObject = {
       name: req.query.name as string,
@@ -46,6 +39,7 @@ image.get(
     res.json({
       Message: "Image is n't exist",
     });
+    
   }
 );
 
